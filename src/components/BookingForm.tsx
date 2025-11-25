@@ -18,6 +18,30 @@ export default function BookingForm() {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
+  const [error, setError] = useState("");
+
+  const validateEmail = (email: any) => {
+    const regex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i;
+    return regex.test(email);
+  };
+
+  const validatePhone = (phone: string) => {
+    // Accepts +91 followed by 10 digits, or just 10 digits
+    const regex = /^(\+91[\s]?[6-9]\d{9}|[6-9]\d{9})$/;
+    return regex.test(phone);
+  };
+  
+  const isFormValid =
+  formData.client_email.trim() !== "" &&
+  formData.client_phone.trim() !== "" &&
+  formData.client_name.trim() !== "" && 
+  formData.event_date !== "" &&
+  formData.event_type !== "" &&
+  formData.event_location !== "" &&
+  formData.artist_id !== "" &&
+  validateEmail(formData.client_email) &&
+  validatePhone(formData.client_phone)
+  
   useEffect(() => {
     fetchArtists();
   }, []);
@@ -34,35 +58,89 @@ export default function BookingForm() {
     e.preventDefault();
     setSubmitting(true);
 
+    // 1️⃣ Fetch the selected artist details
+    const { data: artistData } = await supabase
+      .from("artists")
+      .select("name")
+      .eq("id", formData.artist_id)
+      .single();
+
     const { error } = await supabase
       .from('bookings')
       .insert([formData]);
 
     setSubmitting(false);
 
-    if (!error) {
-      setSubmitted(true);
-      setFormData({
-        artist_id: '',
-        client_name: '',
-        client_email: '',
-        client_phone: '',
-        event_date: '',
-        event_type: '',
-        event_location: '',
-        expected_guests: 0,
-        message: ''
-      });
-      setTimeout(() => setSubmitted(false), 5000);
+    if (error) {
+      setSubmitting(false);
+      alert("Booking failed");
+      return;
     }
+
+    // 2️⃣ Call Supabase Function to send Admin Email
+    const emailResponse = await fetch(
+      "https://ftyvobawlxhrcllbrbew.supabase.co/functions/v1/resend-email",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`
+        },
+        body: JSON.stringify({
+          client_email: formData.client_email,
+          client_name: formData.client_name,
+          client_phone: formData.client_phone,
+          event_date: formData.event_date,
+          event_location: formData.event_location,
+          event_type: formData.event_type,
+          expected_guests: formData.expected_guests,
+          message: formData.message,
+          artist_name: artistData?.name || "Unknown"
+        }),
+      }
+    );
+
+    if (!emailResponse.ok) {
+      console.error("Email sending failed");
+    }
+
+    setSubmitted(true);
+
+    setFormData({
+      artist_id: '',
+      client_name: '',
+      client_email: '',
+      client_phone: '',
+      event_date: '',
+      event_type: '',
+      event_location: '',
+      expected_guests: 0,
+      message: '',
+    });
+    setTimeout(() => setSubmitted(false), 5000);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: name === 'expected_guests' ? parseInt(value) || 0 : value
+      [name]: value
     }));
+
+    if (name === "client_email") {
+      if (!validateEmail(value)) {
+        setError("Please enter a valid email address");
+      } else {
+        setError("");
+      }
+    }
+    if (name === "client_phone") {
+      if (!validatePhone(value)) {
+        setError("Please enter a valid phone number");
+      } else {
+        setError("");
+      }
+    }
   };
 
   return (
@@ -89,7 +167,7 @@ export default function BookingForm() {
             <div className="grid md:grid-cols-2 gap-6">
               <div className="md:col-span-2">
                 <label className="block text-gray-700 font-medium mb-2">
-                  Select Artist/Group *
+                  Select Folk Group *
                 </label>
                 <select
                   name="artist_id"
@@ -98,10 +176,10 @@ export default function BookingForm() {
                   required
                   className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-orange-500 focus:outline-none transition-colors"
                 >
-                  <option value="">Choose an artist...</option>
+                  <option value="">Choose folk group...</option>
                   {artists.map(artist => (
                     <option key={artist.id} value={artist.id}>
-                      {artist.name} - ₹{artist.price_range_min.toLocaleString()} - ₹{artist.price_range_max.toLocaleString()}
+                      {artist.name}
                     </option>
                   ))}
                 </select>
@@ -136,10 +214,12 @@ export default function BookingForm() {
                     value={formData.client_email}
                     onChange={handleChange}
                     required
-                    className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:border-orange-500 focus:outline-none transition-colors"
+                    className={`w-full pl-12 pr-4 py-3 border-2 rounded-lg transition-colors 
+                         ${error ? "border-red-500 focus:border-red-500" : "border-gray-200 focus:border-orange-500"}`}
                     placeholder="your@email.com"
                   />
                 </div>
+                {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
               </div>
 
               <div>
@@ -154,11 +234,14 @@ export default function BookingForm() {
                     value={formData.client_phone}
                     onChange={handleChange}
                     required
-                    className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:border-orange-500 focus:outline-none transition-colors"
+                    className={`w-full pl-12 pr-4 py-3 border-2 rounded-lg transition-colors 
+                      ${error ? "border-red-500 focus:border-red-500" : "border-gray-200 focus:border-orange-500"}`}
                     placeholder="+91 98765 43210"
                   />
                 </div>
+                {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
               </div>
+
 
               <div>
                 <label className="block text-gray-700 font-medium mb-2">
@@ -218,24 +301,6 @@ export default function BookingForm() {
                 </div>
               </div>
 
-              <div>
-                <label className="block text-gray-700 font-medium mb-2">
-                  Expected Guests
-                </label>
-                <div className="relative">
-                  <Users className="absolute left-3 top-3.5 text-gray-400 w-5 h-5" />
-                  <input
-                    type="number"
-                    name="expected_guests"
-                    value={formData.expected_guests || ''}
-                    onChange={handleChange}
-                    min="0"
-                    className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:border-orange-500 focus:outline-none transition-colors"
-                    placeholder="Number of guests"
-                  />
-                </div>
-              </div>
-
               <div className="md:col-span-2">
                 <label className="block text-gray-700 font-medium mb-2">
                   Additional Message
@@ -256,7 +321,7 @@ export default function BookingForm() {
 
             <button
               type="submit"
-              disabled={submitting}
+              disabled={!isFormValid}
               className="w-full mt-8 bg-gradient-to-r from-orange-600 to-red-600 text-white py-4 rounded-full text-lg font-semibold hover:shadow-xl transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
             >
               <Send className="w-5 h-5" />
