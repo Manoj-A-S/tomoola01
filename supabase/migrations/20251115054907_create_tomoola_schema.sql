@@ -75,19 +75,10 @@
   - Restricted write access for bookings
 */
 
--- Create indian_states table
-CREATE TABLE IF NOT EXISTS indian_states (
-  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  name text UNIQUE NOT NULL,
-  description text,
-  created_at timestamptz DEFAULT now()
-);
-
 -- Create folk_dances table
 CREATE TABLE IF NOT EXISTS folk_dances (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   name text NOT NULL,
-  state_id uuid REFERENCES indian_states(id) ON DELETE CASCADE,
   description text,
   history text,
   image_url text,
@@ -100,7 +91,6 @@ CREATE TABLE IF NOT EXISTS artists (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   name text NOT NULL,
   type text DEFAULT 'group',
-  state_id uuid REFERENCES indian_states(id) ON DELETE SET NULL,
   folk_dance_id uuid REFERENCES folk_dances(id) ON DELETE SET NULL,
   bio text,
   experience_years integer DEFAULT 0,
@@ -151,7 +141,6 @@ CREATE TABLE IF NOT EXISTS bookings (
 );
 
 -- Enable RLS
-ALTER TABLE indian_states ENABLE ROW LEVEL SECURITY;
 ALTER TABLE folk_dances ENABLE ROW LEVEL SECURITY;
 ALTER TABLE artists ENABLE ROW LEVEL SECURITY;
 ALTER TABLE artist_media ENABLE ROW LEVEL SECURITY;
@@ -159,11 +148,6 @@ ALTER TABLE reviews ENABLE ROW LEVEL SECURITY;
 ALTER TABLE bookings ENABLE ROW LEVEL SECURITY;
 
 -- RLS Policies for public read access
-CREATE POLICY "Anyone can view states"
-  ON indian_states FOR SELECT
-  TO public
-  USING (true);
-
 CREATE POLICY "Anyone can view folk dances"
   ON folk_dances FOR SELECT
   TO public
@@ -191,8 +175,6 @@ CREATE POLICY "Anyone can create bookings"
   WITH CHECK (true);
 
 -- Create indexes for better query performance
-CREATE INDEX IF NOT EXISTS idx_folk_dances_state ON folk_dances(state_id);
-CREATE INDEX IF NOT EXISTS idx_artists_state ON artists(state_id);
 CREATE INDEX IF NOT EXISTS idx_artists_folk_dance ON artists(folk_dance_id);
 CREATE INDEX IF NOT EXISTS idx_artist_media_artist ON artist_media(artist_id);
 CREATE INDEX IF NOT EXISTS idx_reviews_artist ON reviews(artist_id);

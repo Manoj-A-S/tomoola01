@@ -1,22 +1,28 @@
 import Header from './components/Header';
-import Hero from './components/Hero';
-import HowItWorks from './components/HowItWorks';
-import FolkDances from './components/FolkDances';
-import Artists from './components/Artists';
-import BookingForm from './components/BookingForm';
-import Vision from './components/Vision';
+
 import Footer from './components/Footer';
+import { Route, Routes } from 'react-router-dom';
+import Home from './pages/Home';
+import HowItWorksPage from './pages/HowItWorksPage';
+import FolkDancesPage from './pages/FolkDancesPage';
+import BookPage from './pages/BookPage';
+import ArtistsPage from './pages/ArtistsPage';
+import FolkDanceDetailPage from './pages/FolkDanceDetailPage';
 
 function App() {
   return (
     <div className="min-h-screen">
       <Header />
-      <Hero />
-      <HowItWorks />
-      <FolkDances />
-      <Artists />
-      <BookingForm />
-      <Vision />
+        <main className="flex-grow">
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/how-it-works' element={<HowItWorksPage />} />
+            <Route path="/folk-dances" element={<FolkDancesPage />} />
+            <Route path="/folk-dances/:id" element={<FolkDanceDetailPage />} />
+            <Route path="/artists" element={<ArtistsPage />} />
+            <Route path="/book" element={<BookPage />} />
+          </Routes>
+        </main>
       <Footer />
     </div>
   );

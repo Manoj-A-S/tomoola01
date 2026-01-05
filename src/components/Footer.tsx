@@ -1,4 +1,5 @@
 import { Music, Mail, Phone, MapPin } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Footer() {
   return (
@@ -20,38 +21,11 @@ export default function Footer() {
           <div>
             <h3 className="text-white font-bold mb-4">Quick Links</h3>
             <ul className="space-y-2 text-sm">
-              <li>
-                <button
-                  onClick={() => document.getElementById('home')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="hover:text-orange-500 transition-colors"
-                >
-                  Home
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="hover:text-orange-500 transition-colors"
-                >
-                  How It Works
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => document.getElementById('folk-dances')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="hover:text-orange-500 transition-colors"
-                >
-                  Folk Dances
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => document.getElementById('artists')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="hover:text-orange-500 transition-colors"
-                >
-                  Artists
-                </button>
-              </li>
+              <li><Link to="/" className="hover:text-orange-200 font-medium">Home</Link></li>
+              <li><Link to="/how-it-works" className="hover:text-orange-200 font-medium">How It Works</Link></li>
+              <li><Link to="/folk-dances" className="hover:text-orange-200 font-medium">Folk Dances</Link></li>
+              <li><Link to="/artists" className="hover:text-orange-200 font-medium">Artists</Link></li>
+              <li><Link to="/book" className="hover:text-orange-200 font-medium">Book Now</Link></li>
             </ul>
           </div>
 

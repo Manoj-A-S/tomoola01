@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react';
-import { supabase, Artist, FolkDance, IndianState, Review } from '../lib/supabase';
-import { MapPin, Star, BadgeCheck, Users, Calendar } from 'lucide-react';
+import { supabase, Artist, FolkDance, Review } from '../lib/supabase';
+import { Star, BadgeCheck, Users, Calendar } from 'lucide-react';
 
 export default function Artists() {
   const [artists, setArtists] = useState<Artist[]>([]);
   const [folkDances, setFolkDances] = useState<FolkDance[]>([]);
-  const [states, setStates] = useState<IndianState[]>([]);
   const [reviews, setReviews] = useState<Review[]>([]);
-  const [selectedState, setSelectedState] = useState<string>('all');
   const [priceFilter, setPriceFilter] = useState<string>('all');
   const [loading, setLoading] = useState(true);
 
@@ -16,22 +14,16 @@ export default function Artists() {
   }, []);
 
   const fetchData = async () => {
-    const [artistsRes, dancesRes, statesRes, reviewsRes] = await Promise.all([
+    const [artistsRes, dancesRes, reviewsRes] = await Promise.all([
       supabase.from('artists').select('*').order('rating', { ascending: false }),
       supabase.from('folk_dances').select('*'),
-      supabase.from('indian_states').select('*').order('name'),
       supabase.from('reviews').select('*')
     ]);
 
     if (artistsRes.data) setArtists(artistsRes.data);
     if (dancesRes.data) setFolkDances(dancesRes.data);
-    if (statesRes.data) setStates(statesRes.data);
     if (reviewsRes.data) setReviews(reviewsRes.data);
     setLoading(false);
-  };
-
-  const getStateName = (stateId: string) => {
-    return states.find(s => s.id === stateId)?.name || '';
   };
 
   const getDanceName = (danceId: string) => {
@@ -43,12 +35,11 @@ export default function Artists() {
   };
 
   const filteredArtists = artists.filter(artist => {
-    const stateMatch = selectedState === 'all' || artist.state_id === selectedState;
     const priceMatch = priceFilter === 'all' ||
       (priceFilter === 'budget' && artist.price_range_max <= 75000) ||
       (priceFilter === 'mid' && artist.price_range_max > 75000 && artist.price_range_max <= 150000) ||
       (priceFilter === 'premium' && artist.price_range_max > 150000);
-    return stateMatch && priceMatch;
+    return priceMatch;
   });
 
   if (loading) {
@@ -71,77 +62,6 @@ export default function Artists() {
           <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
             Browse our curated collection of verified folk artists and performance groups
           </p>
-
-          <div className="flex flex-col md:flex-row gap-4 justify-center items-center mb-8">
-            <div className="flex flex-wrap justify-center gap-2">
-              <button
-                onClick={() => setSelectedState('all')}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                  selectedState === 'all'
-                    ? 'bg-gradient-to-r from-orange-600 to-red-600 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-              >
-                All States
-              </button>
-              {states.slice(0, 5).map(state => (
-                <button
-                  key={state.id}
-                  onClick={() => setSelectedState(state.id)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                    selectedState === state.id
-                      ? 'bg-gradient-to-r from-orange-600 to-red-600 text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
-                >
-                  {state.name}
-                </button>
-              ))}
-            </div>
-
-            <div className="flex gap-2">
-              <button
-                onClick={() => setPriceFilter('all')}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                  priceFilter === 'all'
-                    ? 'bg-gradient-to-r from-orange-600 to-red-600 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-              >
-                All Prices
-              </button>
-              <button
-                onClick={() => setPriceFilter('budget')}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                  priceFilter === 'budget'
-                    ? 'bg-gradient-to-r from-orange-600 to-red-600 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-              >
-                Budget
-              </button>
-              <button
-                onClick={() => setPriceFilter('mid')}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                  priceFilter === 'mid'
-                    ? 'bg-gradient-to-r from-orange-600 to-red-600 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-              >
-                Mid-Range
-              </button>
-              <button
-                onClick={() => setPriceFilter('premium')}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                  priceFilter === 'premium'
-                    ? 'bg-gradient-to-r from-orange-600 to-red-600 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-              >
-                Premium
-              </button>
-            </div>
-          </div>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
@@ -161,12 +81,6 @@ export default function Artists() {
                       <span className="text-sm font-medium">Verified</span>
                     </div>
                   )}
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
-                    <div className="flex items-center space-x-2 text-white">
-                      <MapPin className="w-4 h-4" />
-                      <span className="text-sm font-medium">{getStateName(artist.state_id)}</span>
-                    </div>
-                  </div>
                 </div>
 
                 <div className="p-6">
