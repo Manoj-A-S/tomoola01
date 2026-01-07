@@ -33,13 +33,6 @@ export type FolkDance = {
   created_at: string;
 };
 
-export type IndianState = {
-  id: string;
-  name: string;
-  description: string;
-  created_at: string;
-};
-
 export type Review = {
   id: string;
   artist_id: string;

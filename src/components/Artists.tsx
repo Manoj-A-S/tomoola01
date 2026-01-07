@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
 import { supabase, Artist, FolkDance, Review } from '../lib/supabase';
 import { Star, BadgeCheck, Users, Calendar } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Artists() {
   const [artists, setArtists] = useState<Artist[]>([]);
   const [folkDances, setFolkDances] = useState<FolkDance[]>([]);
   const [reviews, setReviews] = useState<Review[]>([]);
-  const [priceFilter, setPriceFilter] = useState<string>('all');
+  const [priceFilter] = useState<string>('all');
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchData();
@@ -133,10 +135,7 @@ export default function Artists() {
                   )}
 
                   <button
-                    onClick={() => {
-                      const element = document.getElementById('book');
-                      element?.scrollIntoView({ behavior: 'smooth' });
-                    }}
+                    onClick={() => navigate(`/book`)}
                     className="w-full bg-gradient-to-r from-orange-600 to-red-600 text-white py-3 rounded-full font-semibold hover:shadow-lg transition-all transform hover:scale-105"
                   >
                     Book Now

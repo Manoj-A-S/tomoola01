@@ -22,7 +22,7 @@ export default function Footer() {
             <h3 className="text-white font-bold mb-4">Quick Links</h3>
             <ul className="space-y-2 text-sm">
               <li><Link to="/" className="hover:text-orange-200 font-medium">Home</Link></li>
-              <li><Link to="/how-it-works" className="hover:text-orange-200 font-medium">How It Works</Link></li>
+              <li><Link to="/about" className="hover:text-orange-200 font-medium">About</Link></li>
               <li><Link to="/folk-dances" className="hover:text-orange-200 font-medium">Folk Dances</Link></li>
               <li><Link to="/artists" className="hover:text-orange-200 font-medium">Artists</Link></li>
               <li><Link to="/book" className="hover:text-orange-200 font-medium">Book Now</Link></li>

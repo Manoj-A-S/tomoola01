@@ -42,10 +42,10 @@ export default function Header() {
           <div className="md:hidden mt-4 bg-white text-orange-600 rounded-2xl shadow-lg overflow-hidden">
             <div className="flex flex-col divide-y">
               <MobileLink to="/" onClick={closeMenu}>Home</MobileLink>
-              <MobileLink to="/how-it-works" onClick={closeMenu}>How It Works</MobileLink>
+              <MobileLink to="/about" onClick={closeMenu}>About</MobileLink>
               <MobileLink to="/folk-dances" onClick={closeMenu}>Folk Dances</MobileLink>
               <MobileLink to="/artists" onClick={closeMenu}>Artists</MobileLink>
-              <MobileLink to="/book" onClick={closeMenu} highlight>
+              <MobileLink to="/book" onClick={closeMenu}>
                 Book Now
               </MobileLink>
             </div>
@@ -61,14 +61,12 @@ export default function Header() {
 function NavLinks() {
   return (
     <>
-      <Link className="hover:text-orange-200 font-medium" to="/">Home</Link>
-      <Link className="hover:text-orange-200 font-medium" to="/how-it-works">How It Works</Link>
-      <Link className="hover:text-orange-200 font-medium" to="/folk-dances">Folk Dances</Link>
-      <Link className="hover:text-orange-200 font-medium" to="/artists">Artists</Link>
-      <Link
-        to="/book"
-        className="bg-white text-orange-600 px-6 py-2 rounded-full font-semibold hover:bg-orange-50 shadow-md"
-      >
+      <Link className="hover:text-orange-200 font-serif italic font-bold tracking-tight py-2 text-lg" to="/">Home</Link>
+      <Link className="hover:text-orange-200 font-serif italic font-bold tracking-tight py-2 text-lg" to="/about">About</Link>
+      <Link className="hover:text-orange-200 font-serif italic font-bold tracking-tight py-2 text-lg" to="/folk-dances">Folk Dances</Link>
+      <Link className="hover:text-orange-200 font-serif italic font-bold tracking-tight py-2 text-lg" to="/artists">Artists</Link>
+      <Link to="/book"
+        className="bg-white text-orange-600 text-lg px-6 py-2 rounded-full font-serif italic font-bold tracking-tight hover:bg-orange-50 shadow-md">
         Book Now
       </Link>
     </>
@@ -79,20 +77,16 @@ function MobileLink({
   to,
   children,
   onClick,
-  highlight = false,
 }: {
   to: string;
   children: React.ReactNode;
   onClick: () => void;
-  highlight?: boolean;
 }) {
   return (
     <Link
       to={to}
       onClick={onClick}
-      className={`px-6 py-4 text-lg font-medium transition-colors
-        ${highlight ? 'bg-orange-600 text-white' : 'hover:bg-orange-50'}
-      `}
+      className={`px-6 py-4 text-lg font-medium transition-colors`}
     >
       {children}
     </Link>

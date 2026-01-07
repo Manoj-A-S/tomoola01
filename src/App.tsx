@@ -3,11 +3,11 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import { Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
-import HowItWorksPage from './pages/HowItWorksPage';
 import FolkDancesPage from './pages/FolkDancesPage';
 import BookPage from './pages/BookPage';
 import ArtistsPage from './pages/ArtistsPage';
 import FolkDanceDetailPage from './pages/FolkDanceDetailPage';
+import AboutPage from './pages/AboutPage';
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
         <main className="flex-grow">
           <Routes>
             <Route path='/' element={<Home />} />
-            <Route path='/how-it-works' element={<HowItWorksPage />} />
+            <Route path="/about" element={<AboutPage />} />
             <Route path="/folk-dances" element={<FolkDancesPage />} />
             <Route path="/folk-dances/:id" element={<FolkDanceDetailPage />} />
             <Route path="/artists" element={<ArtistsPage />} />
