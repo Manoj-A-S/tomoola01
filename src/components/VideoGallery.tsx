@@ -17,8 +17,8 @@ export default function VideoGallery({ videos }: VideoGalleryProps) {
             <div className="mt-6 relative">
                 {videos.length > visibleSlides && (
                     <>
-                        <button className="custom-prev nav-btn left-[-25px]">‹</button>
-                        <button className="custom-next nav-btn right-[-25px]">›</button>
+                        <button className="cus-prev nav-btn left-[-25px]">‹</button>
+                        <button className="cus-next nav-btn right-[-25px]">›</button>
                     </>
                 )}
 
@@ -28,7 +28,7 @@ export default function VideoGallery({ videos }: VideoGalleryProps) {
                     slidesPerView={4}
                     navigation={
                         videos.length > visibleSlides
-                            ? { prevEl: ".custom-prev", nextEl: ".custom-next" }
+                            ? { prevEl: ".cus-prev", nextEl: ".cus-next" }
                             : false
                     }
                     pagination={{ clickable: true }}
