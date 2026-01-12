@@ -30,6 +30,8 @@ export type FolkDance = {
   history: string;
   image_url: string;
   video_url: string;
+  images: string[];
+  videos:string[];
   created_at: string;
 };
 

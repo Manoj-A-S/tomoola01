@@ -61,12 +61,12 @@ export default function Header() {
 function NavLinks() {
   return (
     <>
-      <Link className="hover:text-orange-200 font-serif italic font-bold tracking-tight py-2 text-lg" to="/">Home</Link>
-      <Link className="hover:text-orange-200 font-serif italic font-bold tracking-tight py-2 text-lg" to="/about">About</Link>
-      <Link className="hover:text-orange-200 font-serif italic font-bold tracking-tight py-2 text-lg" to="/folk-dances">Folk Dances</Link>
-      <Link className="hover:text-orange-200 font-serif italic font-bold tracking-tight py-2 text-lg" to="/artists">Artists</Link>
+      <Link className="hover:text-orange-200 font-serif font-bold py-2 text-lg" to="/">Home</Link>
+      <Link className="hover:text-orange-200 font-serif font-bold py-2 text-lg" to="/about">About</Link>
+      <Link className="hover:text-orange-200 font-serif font-bold py-2 text-lg" to="/folk-dances">Folk Dances</Link>
+      <Link className="hover:text-orange-200 font-serif font-bold py-2 text-lg" to="/artists">Artists</Link>
       <Link to="/book"
-        className="bg-white text-orange-600 text-lg px-6 py-2 rounded-full font-serif italic font-bold tracking-tight hover:bg-orange-50 shadow-md">
+        className="bg-white text-orange-600 text-lg px-6 py-2 rounded-full font-serif font-bold hover:bg-orange-50 shadow-md">
         Book Now
       </Link>
     </>

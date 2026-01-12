@@ -8,6 +8,9 @@ import BookPage from './pages/BookPage';
 import ArtistsPage from './pages/ArtistsPage';
 import FolkDanceDetailPage from './pages/FolkDanceDetailPage';
 import AboutPage from './pages/AboutPage';
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 function App() {
   return (

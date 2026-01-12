@@ -7,7 +7,7 @@ export default function Hero() {
     <section id="home" className="relative bg-gradient-to-br from-orange-50 via-red-50 to-yellow-50 py-20">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-5xl md:text-6xl font-serif italic font-bold tracking-tight text-gray-900 mb-6 leading-tight">
+          <h2 className="text-5xl md:text-6xl font-serif font-bold text-gray-900 mb-6 leading-tight">
             Discover Authentic
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-red-600"> Indian Folk Art</span>
           </h2>
