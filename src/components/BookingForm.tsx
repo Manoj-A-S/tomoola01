@@ -1,18 +1,32 @@
 import { useState, useEffect } from 'react';
-import { supabase, Artist, Booking } from '../lib/supabase';
-import { Calendar, Mail, Phone, MapPin, Users, MessageSquare, Send } from 'lucide-react';
+import { supabase, Booking, FolkDance } from '../lib/supabase';
+import { Calendar, Mail, Phone, MapPin, MessageSquare, Send } from 'lucide-react';
 
 export default function BookingForm() {
-  const [artists, setArtists] = useState<Artist[]>([]);
+  const [folkDances, setFolkDances] = useState<FolkDance[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchFolkDances = async () => {
+      const { data, error } = await supabase.from("folk_dances").select("id, name");
+      if (error) {
+        console.error("Error fetching folk dances:", error.message);
+      } else {
+        setFolkDances(data as FolkDance[]);
+      }
+      setLoading(false);
+    };
+    fetchFolkDances();
+  }, []);
+
   const [formData, setFormData] = useState<Booking>({
-    artist_id: '',
+    folkdance_id: '',
     client_name: '',
     client_email: '',
     client_phone: '',
     event_date: '',
     event_type: '',
     event_location: '',
-    expected_guests: 0,
     message: ''
   });
   const [submitting, setSubmitting] = useState(false);
@@ -30,40 +44,21 @@ export default function BookingForm() {
     const regex = /^(\+91[\s]?[6-9]\d{9}|[6-9]\d{9})$/;
     return regex.test(phone);
   };
-  
-  const isFormValid =
-  formData.client_email.trim() !== "" &&
-  formData.client_phone.trim() !== "" &&
-  formData.client_name.trim() !== "" && 
-  formData.event_date !== "" &&
-  formData.event_type !== "" &&
-  formData.event_location !== "" &&
-  formData.artist_id !== "" &&
-  validateEmail(formData.client_email) &&
-  validatePhone(formData.client_phone)
-  
-  useEffect(() => {
-    fetchArtists();
-  }, []);
 
-  const fetchArtists = async () => {
-    const { data } = await supabase
-      .from('artists')
-      .select('*')
-      .order('name');
-    if (data) setArtists(data);
-  };
+  const isFormValid =
+    formData.client_email.trim() !== "" &&
+    formData.client_phone.trim() !== "" &&
+    formData.client_name.trim() !== "" &&
+    formData.event_date !== "" &&
+    formData.event_type !== "" &&
+    formData.folkdance_id !== "" &&
+    formData.event_location !== "" &&
+    validateEmail(formData.client_email) &&
+    validatePhone(formData.client_phone)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
-
-    // 1️⃣ Fetch the selected artist details
-    const { data: artistData } = await supabase
-      .from("artists")
-      .select("name")
-      .eq("id", formData.artist_id)
-      .single();
 
     const { error } = await supabase
       .from('bookings')
@@ -76,6 +71,10 @@ export default function BookingForm() {
       alert("Booking failed");
       return;
     }
+
+    const selectedDance = folkDances.find(
+      (dance) => dance.id === formData.folkdance_id
+    );
 
     // 2️⃣ Call Supabase Function to send Admin Email
     const emailResponse = await fetch(
@@ -93,9 +92,8 @@ export default function BookingForm() {
           event_date: formData.event_date,
           event_location: formData.event_location,
           event_type: formData.event_type,
-          expected_guests: formData.expected_guests,
-          message: formData.message,
-          artist_name: artistData?.name || "Unknown"
+          folk_dance: selectedDance?.name || "Not Specified",
+          message: formData.message
         }),
       }
     );
@@ -106,15 +104,16 @@ export default function BookingForm() {
 
     setSubmitted(true);
 
+    alert("🎉 Booking request submitted successfully! We’ll contact you shortly.");
+
     setFormData({
-      artist_id: '',
+      folkdance_id: '',
       client_name: '',
       client_email: '',
       client_phone: '',
       event_date: '',
       event_type: '',
       event_location: '',
-      expected_guests: 0,
       message: '',
     });
     setTimeout(() => setSubmitted(false), 5000);
@@ -149,10 +148,10 @@ export default function BookingForm() {
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Book Your Artist
+              Book Your Folk Group
             </h2>
-            <p className="text-xl text-gray-600">
-              Fill out the form below and we'll connect you with your chosen artist
+            <p className="text-xl text-gray-800">
+              Fill out the form below, and we’ll connect you with the group of your choice.
             </p>
           </div>
 
@@ -170,16 +169,16 @@ export default function BookingForm() {
                   Select Folk Group *
                 </label>
                 <select
-                  name="artist_id"
-                  value={formData.artist_id}
+                  name="folkdance_id"
+                  value={formData.folkdance_id}
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-orange-500 focus:outline-none transition-colors"
                 >
-                  <option value="">Choose folk group...</option>
-                  {artists.map(artist => (
-                    <option key={artist.id} value={artist.id}>
-                      {artist.name}
+                  <option value="">-- Choose a Folk Group --</option>
+                  {folkDances.map((dance) => (
+                    <option key={dance.id} value={dance.id}>
+                      {dance.name}
                     </option>
                   ))}
                 </select>

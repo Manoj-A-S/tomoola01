@@ -12,16 +12,10 @@ export default function Hero() {
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-red-600"> Indian Folk Art</span>
           </h2>
           <p className="text-xl text-gray-700 mb-8 leading-relaxed font-sans tracking-tight">
-            Connect with India's finest folk dance artists and groups. Bring the vibrant colors,
+            Connect with India's finest folk dance groups. Bring the vibrant colors,
             rhythms, and traditions of our rich cultural heritage to your special events.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={() => navigate(`/artists`)}
-              className="bg-gradient-to-r from-orange-600 to-red-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:shadow-xl transition-all transform hover:scale-105"
-            >
-              Browse Artists
-            </button>
             <button
               onClick={() => navigate('/about')}
               className="bg-white text-orange-600 px-8 py-4 rounded-full text-lg font-semibold border-2 border-orange-600 hover:bg-orange-50 transition-all"

@@ -14,7 +14,7 @@ export default function Footer() {
               <span className="text-2xl font-bold text-white">ToMoola</span>
             </div>
             <p className="text-sm leading-relaxed">
-              Celebrating and preserving India's magnificent folk dance traditions while empowering artists nationwide.
+              Celebrating and preserving India's magnificent folk dance traditions nationwide.
             </p>
           </div>
 
@@ -24,7 +24,6 @@ export default function Footer() {
               <li><Link to="/" className="hover:text-orange-200 font-medium">Home</Link></li>
               <li><Link to="/about" className="hover:text-orange-200 font-medium">About</Link></li>
               <li><Link to="/folk-dances" className="hover:text-orange-200 font-medium">Folk Dances</Link></li>
-              <li><Link to="/artists" className="hover:text-orange-200 font-medium">Artists</Link></li>
               <li><Link to="/book" className="hover:text-orange-200 font-medium">Book Now</Link></li>
             </ul>
           </div>
@@ -35,7 +34,6 @@ export default function Footer() {
               <li className="hover:text-orange-500 transition-colors cursor-pointer">Help Center</li>
               <li className="hover:text-orange-500 transition-colors cursor-pointer">Terms of Service</li>
               <li className="hover:text-orange-500 transition-colors cursor-pointer">Privacy Policy</li>
-              <li className="hover:text-orange-500 transition-colors cursor-pointer">Artist Guidelines</li>
             </ul>
           </div>
 
