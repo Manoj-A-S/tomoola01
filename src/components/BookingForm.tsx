@@ -4,7 +4,7 @@ import { Calendar, Mail, Phone, MapPin, MessageSquare, Send } from 'lucide-react
 
 export default function BookingForm() {
   const [folkDances, setFolkDances] = useState<FolkDance[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchFolkDances = async () => {
