@@ -44,7 +44,6 @@ export default function Header() {
               <MobileLink to="/" onClick={closeMenu}>Home</MobileLink>
               <MobileLink to="/about" onClick={closeMenu}>About</MobileLink>
               <MobileLink to="/folk-dances" onClick={closeMenu}>Folk Dances</MobileLink>
-              <MobileLink to="/artists" onClick={closeMenu}>Artists</MobileLink>
               <MobileLink to="/book" onClick={closeMenu}>
                 Book Now
               </MobileLink>
@@ -64,7 +63,6 @@ function NavLinks() {
       <Link className="hover:text-orange-200 font-serif font-bold py-2 text-lg" to="/">Home</Link>
       <Link className="hover:text-orange-200 font-serif font-bold py-2 text-lg" to="/about">About</Link>
       <Link className="hover:text-orange-200 font-serif font-bold py-2 text-lg" to="/folk-dances">Folk Dances</Link>
-      <Link className="hover:text-orange-200 font-serif font-bold py-2 text-lg" to="/artists">Artists</Link>
       <Link to="/book"
         className="bg-white text-orange-600 text-lg px-6 py-2 rounded-full font-serif font-bold hover:bg-orange-50 shadow-md">
         Book Now

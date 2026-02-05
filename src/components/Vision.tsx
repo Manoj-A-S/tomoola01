@@ -5,7 +5,7 @@ export default function Vision() {
     {
       icon: Globe,
       title: 'Bridge Tradition & Technology',
-      description: 'Create sustainable livelihoods for folk artists while preserving India\'s invaluable cultural heritage for future generations.'
+      description: 'Create sustainable livelihoods while preserving India’s invaluable cultural heritage for future generations.'
     },
     {
       icon: Heart,
@@ -27,7 +27,7 @@ export default function Vision() {
             Our Vision
           </h2>
           <p className="text-xl text-orange-100 max-w-3xl mx-auto">
-            Preserving Culture, Empowering Artists, Enriching Events
+            Preserving Culture and Enriching Events
           </p>
         </div>
 
@@ -45,8 +45,8 @@ export default function Vision() {
 
         <div className="mt-16 text-center">
           <p className="text-2xl font-semibold text-white max-w-4xl mx-auto leading-relaxed">
-            Join us in our mission to celebrate and preserve India's rich cultural tapestry while empowering the artists who keep these traditions alive.
-          </p>
+              Join us in our mission to celebrate and preserve India’s rich cultural tapestry, 
+              keeping these traditions alive for generations to come.          </p>
         </div>
       </div>
     </section>

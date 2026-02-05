@@ -5,7 +5,6 @@ import { Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import FolkDancesPage from './pages/FolkDancesPage';
 import BookPage from './pages/BookPage';
-import ArtistsPage from './pages/ArtistsPage';
 import FolkDanceDetailPage from './pages/FolkDanceDetailPage';
 import AboutPage from './pages/AboutPage';
 import "swiper/css";
@@ -22,7 +21,6 @@ function App() {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/folk-dances" element={<FolkDancesPage />} />
             <Route path="/folk-dances/:id" element={<FolkDanceDetailPage />} />
-            <Route path="/artists" element={<ArtistsPage />} />
             <Route path="/book" element={<BookPage />} />
           </Routes>
         </main>

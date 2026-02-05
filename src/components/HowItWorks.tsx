@@ -5,13 +5,13 @@ export default function HowItWorks() {
     {
       icon: Search,
       title: 'Browse & Compare',
-      description: 'Explore comprehensive artist profiles featuring high-quality videos, professional photos, and authentic reviews from previous clients. Filter by genre, region, price range, and availability to find your ideal cultural experience.',
+      description: 'Explore comprehensive profiles featuring high‑quality videos, professional photos, and authentic reviews from previous clients. Check availability and pricing options to find your ideal cultural experience.',
       color: 'from-orange-500 to-red-500'
     },
     {
       icon: ShieldCheck,
       title: 'Book Securely',
-      description: 'Request personalized quotes, negotiate event details directly with artists, and pay safely through our trusted, encrypted payment platform. Transparent pricing with no hidden fees ensures peace of mind.',
+      description: 'Request personalized quotes, negotiate event details directly, and pay safely through our trusted, encrypted payment platform. Transparent pricing with no hidden fees ensures peace of mind.',
       color: 'from-red-500 to-pink-500'
     },
     {
@@ -23,13 +23,13 @@ export default function HowItWorks() {
   ];
 
   return (
-    <section id="how-it-works" className="py-20 bg-white">
+    <section id="how-it-works" className="py-20 bg-gradient-to-br from-orange-50 to-red-50">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
             How ToMoola Works
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-800 max-w-2xl mx-auto">
             Simple 3-Step Booking Process
           </p>
         </div>
